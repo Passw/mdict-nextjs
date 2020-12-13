@@ -188,8 +188,6 @@ const parserer = function(pako, lzo, ripemd128, Promise, parseXml, common) {
      * @return a Promise object which will resolve to a lookup function.
      */
     function parse_mdict(file, ext) {
-        console.log({file})
-        console.log({ext})
 
         var KEY_INDEX,                                       // keyword index array
             RECORD_BLOCK_TABLE = createRecordBlockTable();   // record block table

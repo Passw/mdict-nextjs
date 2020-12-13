@@ -3,11 +3,8 @@ const {JSDOM} = require("jsdom");
 const {window} = new JSDOM("");
 const $ = require("jquery")(window);
 const jQuery = $
-console.log("jquery version", $.fn.jquery)
-const h1 = $('div').html("<div>hello world</div>")
-console.log({h1})
-const h2 = $('<div>').html("<div>hello world</div>") // create a div
-console.log({h2})
+const Blob = require("cross-blob");
+let URL = require("./mdict-url").URL
 
 
 const renderer = function ($, Promise) {
@@ -53,7 +50,9 @@ const renderer = function ($, Promise) {
         })(resources['mdd']);
 
         function loadData(mime, data) {
-            var blob = new Blob([data], {type: mime});
+            // var blob = new Blob([data], {type: mime});
+            // console.log({blob})
+            const blob = data // js Unit8Array
             return URL.createObjectURL(blob);
         }
 
@@ -182,15 +181,12 @@ const renderer = function ($, Promise) {
                         return lookup(query);
                     }).then(function (definitions) {
                         console.log('lookup done!');
-                        console.log({definitions})
                         var html = definitions.reduce(function (prev, txt) {
                             return prev + '<p></p>' + txt;
                         }, '<p>' + definitions.length + ' entry(ies) </p>');
-                        console.log({html})
                         const h = $('<div></div>').html(html)
-                        console.log("h.html()", h.html())
                         const r = render(h)
-                        console.log("r.html", r.html())
+                        console.log("r.html()", r.html())
                         return Promise.resolve(r)
                     });
             },
